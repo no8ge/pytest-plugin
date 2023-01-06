@@ -1,1 +1,1 @@
-from src.core import *
+from .core import *

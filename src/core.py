@@ -1,9 +1,10 @@
 import os
+import uuid
 from minio import Minio
 from loguru import logger
 
 
-pod_name = os.getenv('POD_NAME')
+pod_name = os.getenv('POD_NAME', default=str(uuid.uuid4())[0:6])
 logger.add(f'{pod_name}/log.log')
 
 
@@ -38,6 +39,7 @@ def pytest_addoption(parser, pluginmanager):
         help='minio secret key'
     )
 
+
 def pytest_unconfigure(config):
     try:
         host = config.getoption("host")
@@ -62,4 +64,3 @@ def pytest_unconfigure(config):
 
     except Exception as err:
         logger.debug(err)
-
