@@ -20,4 +20,4 @@ python_version = "3.10"
 upload = 'twine upload dist/*'
 build = 'python setup.py sdist bdist_wheel'
 test = 'pytest -s -v --alluredir reports'
-clean = 'rm -rf .eggs build dist pytest_pusher.egg-info'
+clean = 'rm -rf .eggs build dist pytest_pusher.egg-info reports temp'

@@ -7,6 +7,8 @@ from loguru import logger
 pod_name = os.getenv('POD_NAME', default=str(uuid.uuid4())[0:6])
 logger.add(f'{pod_name}/log.log')
 
+MINIO_HOST = os.getenv('MINIO_HOST')
+
 
 def get_all_abs_path(source_dir):
     path_list = []
@@ -21,8 +23,7 @@ def pytest_addoption(parser, pluginmanager):
     mygroup = parser.getgroup("pusher")
     mygroup.addoption(
         "--host",
-        # default='middleware-minio.tink:9000',
-        default='tink.test:32703',
+        default=MINIO_HOST,
         dest='host',
         help='minio host'
     )
@@ -48,7 +49,7 @@ def pytest_unconfigure(config):
         allure_report_dir = config.getoption("allure_report_dir")
 
         os.system(
-            f'allure generate --clean {allure_report_dir} -o {pod_name}/html > {pod_name}/log.log')
+            f'allure generate --clean {allure_report_dir} -o {pod_name}/data/autotest/reports/html > {pod_name}/log.log')
 
         minioClient = Minio(
             host,
